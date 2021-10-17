@@ -1,6 +1,6 @@
 def main():
     while 1:
-        a=0; b=0; c=0
+        a=0; b=0; c=0; e=0; f=0; l=""
         try:
             a = str(input("Введите, пожалуйста, число: "))
             c = int(input("Введите, пожалуйста, основание СС, из которой надо перевести: "))
@@ -12,13 +12,41 @@ def main():
             c = 10
         finally:
             a.upper()
+            for i in a:
+                f += 1
+                if (i == ",")or(i == "."):
+                    e = f
+            if e:
+                f = str(a[(e):len(a):1])
+                a = str(a[0:e-1:1])
+                if c==10:
+                    l = str("." + fldec2n(f, b))
+                elif b == 10:
+                    l=str("." + fln2dec(f, c))#не работает
+                else:
+                    l=str("." + fln2n(f, b, c))#не работает
             if c == 10:
                 a=int(a)
-                print(dec2n(a, b))
+                print(str(dec2n(a, b))+l)
             elif b == 10:
-                print(n2dec(a, c))
+                print(str(n2dec(a, c))+l)
             else:
-                print(n2n(a, b, c))
+                print(str(n2n(a, b, c))+l)
+
+
+def fldec2n(f: str, b: int) -> str:
+    i = 0; d = 0; arr = []; k = ""
+    d = int(f)
+    l = len(str(d))
+    while d:
+        d *= b
+        arr += [n2buk(int((d-d%(power(10,l)))/power(10,l)))]
+        d = d%(power(10,(l)))
+        if len(arr) == 16:
+            d=0
+    for e in arr:
+        k += str(e)
+    return k
 
 
 def n2buk(n: int) -> str:
@@ -43,7 +71,7 @@ def buk2n(b: str) -> int:
     return n
 
 
-def power(a: int, n: int) -> str:
+def power(a: int, n: int) -> int:
     if n == 0:
         return 1
     res = power(a * a, n // 2)
