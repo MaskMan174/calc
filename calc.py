@@ -11,25 +11,20 @@ def main():
             b = 2
             c = 10
         finally:
-            a.upper()
-            for i in a:
-                f += 1
-                if (i == ",")or(i == "."):
-                    e = f
-            if e:
-                f = str(a[(e):len(a):1])
-                a = str(a[0:e-1:1])
-                if c==10:
-                    l = str("." + fldec2n(f, b))
-                elif b == 10:
-                    l=str("." + fln2dec(f, c))#не работает
-                else:
-                    l=str("." + fln2n(f, b, c))#не работает
+            a.lower()
             if c == 10:
+                for i in a:
+                    f += 1
+                    if (i == ",")or(i == "."):
+                        e = f
+                if e:
+                    f = str(a[(e):len(a):1])
+                    a = str(a[0:e-1:1])
+                    l = str("." + str(fldec2n(f, b)))
                 a=int(a)
-                print(str(dec2n(a, b))+l)
+                print((str(dec2n(a, b))+l).upper())
             elif b == 10:
-                print(str(n2dec(a, c))+l)
+                print(str(n2dec(a, c)))
             else:
                 print(str(n2n(a, b, c))+l)
 
@@ -50,25 +45,9 @@ def fldec2n(f: str, b: int) -> str:
 
 
 def n2buk(n: int) -> str:
-    b = ""
-    ABC = ['A', 'B', 'C', 'D', 'E', 'F']
-    for i in range(10, 16):
-        if n == i:
-            b = ABC[i - 10]
-    if b == "":
-        b = str(int(n))
-    return b
-
-
-def buk2n(b: str) -> int:
-    n=int(0)
-    ABC = ['A', 'B', 'C', 'D', 'E', 'F']
-    for i in range(10,16):
-        if b == ABC[i-10]:
-            n = int(i)
-    if n == 0:
-        n=int(b)
-    return n
+    if n<10:
+        return str(n)
+    return chr(n+87)
 
 
 def power(a: int, n: int) -> int:
@@ -97,20 +76,25 @@ def dec2n(a: int, b: int) -> str:
     return res
 
 
-def n2dec(a: str, b: int) -> int:
-    d = []; c = []; j = ""
-    for j in a:
-        c += [buk2n(j)]
-    c.reverse()
-    i = int(0)
-    while i < len(c):
-        d += [(c[i]) * power(b,i)]
-        i+=1
-    d.reverse()
-    res = 0
-    for i in d:
-        res += int(i)
-    return res
+def n2dec(N, a:int) -> int:
+    drob = len(N)
+    n = 0.0
+    for i in range(1, len(N) - 1):
+        if N[i] == '.':
+            drob=i
+    for i in range(len(N)-1, -1, -1):
+        if (i < drob):
+            n+=b2c(N[i]) * pow(a, drob - i - 1)
+        if (i > drob):
+            n += b2c(N[i]) * pow(a, drob - i)
+    return n
+
+
+def b2c(n) -> int:
+    if (ord(n) > 96):
+        return (ord(n) - 87)
+    if (ord(n) < 59):
+        return (ord(n) - 48)
 
 
 if __name__ == '__main__':
