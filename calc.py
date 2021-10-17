@@ -29,7 +29,7 @@ def main():
             elif b == 10:
                 print(q + str(n2dec(a, c)))
             else:
-                print(q + str(n2n(a, b, c)))
+                print(q + str(n2n(a, b, c)).upper)
 
 
 def fldec2n(f: str, b: int) -> str:
@@ -49,7 +49,7 @@ def fldec2n(f: str, b: int) -> str:
 
 def n2buk(n: int) -> str:
     if n<10:
-        return str(n)
+        return str(int(n))
     return chr(n+87)
 
 
@@ -71,7 +71,12 @@ def n2n(a: str, b: int, c: int) -> str:
             e = f
     f = q[e: len(q): 1]
     q = q[0: e - 1: 1]
-    return (dec2n(int(q), b) + "." + fldec2n(f, b))
+    e = fldec2n(f, b)
+    if (e[0]=='0')and(e[1]=="."):
+        e = e[2:len(e):1]
+    print(e)
+    print(dec2n(int(q), b))
+    return (dec2n(int(q), b) + "." + e)
 
 
 def dec2n(a: int, b: int) -> str:
@@ -84,6 +89,7 @@ def dec2n(a: int, b: int) -> str:
     res = ""
     for i in d:
         res += str(i)
+        print(res)
     return res
 
 
