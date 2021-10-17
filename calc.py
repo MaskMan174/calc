@@ -1,6 +1,6 @@
 def main():
     while 1:
-        a=0; b=0; c=0; e=0; f=0; l=""
+        a=0; b=0; c=0; e=0; f=0; l=""; q=""
         try:
             a = str(input("Введите, пожалуйста, число: "))
             c = int(input("Введите, пожалуйста, основание СС, из которой надо перевести: "))
@@ -11,6 +11,9 @@ def main():
             b = 2
             c = 10
         finally:
+            if a[0] == "-":
+                a = a[1:len(a):1]
+                q = "-"
             a.lower()
             if c == 10:
                 for i in a:
@@ -18,15 +21,15 @@ def main():
                     if (i == ",")or(i == "."):
                         e = f
                 if e:
-                    f = str(a[(e):len(a):1])
-                    a = str(a[0:e-1:1])
+                    f = str(a[(e): len(a): 1])
+                    a = str(a[0: e-1: 1])
                     l = str("." + str(fldec2n(f, b)))
                 a=int(a)
-                print((str(dec2n(a, b))+l).upper())
+                print(q + (str(dec2n(a, b)) + l).upper())
             elif b == 10:
-                print(str(n2dec(a, c)))
+                print(q + str(n2dec(a, c)))
             else:
-                print(str(n2n(a, b, c))+l)
+                print(q + str(n2n(a, b, c)))
 
 
 def fldec2n(f: str, b: int) -> str:
@@ -60,7 +63,15 @@ def power(a: int, n: int) -> int:
 
 
 def n2n(a: str, b: int, c: int) -> str:
-    dec2n(n2dec(a, c), b)
+    q = str(n2dec(a, c))
+    f=0;e=0
+    for i in q:
+        f += 1
+        if (i == ",")or(i == "."):
+            e = f
+    f = q[e: len(q): 1]
+    q = q[0: e - 1: 1]
+    return (dec2n(int(q), b) + "." + fldec2n(f, b))
 
 
 def dec2n(a: int, b: int) -> str:
@@ -76,7 +87,7 @@ def dec2n(a: int, b: int) -> str:
     return res
 
 
-def n2dec(N, a:int) -> int:
+def n2dec(N: str, a:int) -> float:
     drob = len(N)
     n = 0.0
     for i in range(1, len(N) - 1):
