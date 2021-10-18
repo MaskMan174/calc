@@ -2,19 +2,19 @@ def main():
     while 1:
         a=0; b=0; c=0; e=0; f=0; l=""; q=""
         try:
-            a = str(input("Введите, пожалуйста, число: "))
+            a = (str(input("Введите, пожалуйста, число: "))).lower()
             c = int(input("Введите, пожалуйста, основание СС, из которой надо перевести: "))
             b = int(input("Введите, пожалуйста, основание СС, в которую надо перевести: "))
         except:
             print("Что-то пошло по пи... не так")
-            a = 12
-            b = 2
-            c = 10
+            a="0"
+            b=2
+            c=10
+            raise SystemExit
         finally:
             if a[0] == "-":
                 a = a[1:len(a):1]
                 q = "-"
-            a.lower()
             if c == 10:
                 for i in a:
                     f += 1
@@ -29,13 +29,13 @@ def main():
             elif b == 10:
                 print(q + str(n2dec(a, c)))
             else:
-                print(q + str(n2n(a, b, c)).upper)
+                print(q + (str(n2n(a, b, c))).upper())
 
 
 def fldec2n(f: str, b: int) -> str:
     i = 0; d = 0; arr = []; k = ""
     d = int(f)
-    l = len(str(d))
+    l = len(f)
     while d:
         d *= b
         arr += [n2buk(int((d-d%(power(10,l)))/power(10,l)))]
@@ -72,11 +72,8 @@ def n2n(a: str, b: int, c: int) -> str:
     f = q[e: len(q): 1]
     q = q[0: e - 1: 1]
     e = fldec2n(f, b)
-    if (e[0]=='0')and(e[1]=="."):
-        e = e[2:len(e):1]
-    print(e)
-    print(dec2n(int(q), b))
-    return (dec2n(int(q), b) + "." + e)
+    f = str(dec2n(int(q), b) + "." + e)
+    return f
 
 
 def dec2n(a: int, b: int) -> str:
@@ -89,29 +86,27 @@ def dec2n(a: int, b: int) -> str:
     res = ""
     for i in d:
         res += str(i)
-        print(res)
     return res
 
 
 def n2dec(N: str, a:int) -> float:
-    drob = len(N)
+    drob = int(0)
     n = 0.0
-    for i in range(1, len(N) - 1):
+    for i in range(0, len(N)):
         if N[i] == '.':
-            drob=i
-    for i in range(len(N)-1, -1, -1):
+            drob = i
+    for i in range(0, len(N)):
         if (i < drob):
-            n+=b2c(N[i]) * pow(a, drob - i - 1)
+            n += b2c(N[i]) * pow(a, drob-i-1)
         if (i > drob):
-            n += b2c(N[i]) * pow(a, drob - i)
+            n += b2c(N[i]) * pow(a, drob-i)
     return n
 
 
-def b2c(n) -> int:
-    if (ord(n) > 96):
-        return (ord(n) - 87)
-    if (ord(n) < 59):
-        return (ord(n) - 48)
+def b2c(n: str) -> int:
+    if (ord(str(n)) > 96):
+        n = int(ord(str(n)) - 87)
+    return int(n)
 
 
 if __name__ == '__main__':
